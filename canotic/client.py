@@ -4,11 +4,12 @@ import requests
 
 from canotic.apis.auth import AuthApiMixin
 from canotic.apis.jobs import JobsApiMixin
+from canotic.apis.ground_truth import GroundTruthApiMixin
 from canotic.config import BASE_URL
 from canotic.exceptions import CanoticError
 
 
-class Client(JobsApiMixin, AuthApiMixin):
+class Client(JobsApiMixin, AuthApiMixin, GroundTruthApiMixin):
 
     def __init__(self, api_key: str = None, auth_token: str = None, base_url: str = None):
         self.api_key = api_key

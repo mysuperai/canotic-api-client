@@ -112,6 +112,78 @@ def list_jobs(ctx, app_id: str, page: int, size: int):
     print(client.list_jobs(app_id, page, size))
 
 
+@client.command(name='create_ground_truth')
+@click.option('--app_id', '-a', help='Application id', required=True)
+@click.option('--input_json', '-i', help='Input json of ground truth', required=True)
+@click.option('--label', '-l', help='Label (or output) json of ground truth', required=True)
+@click.option('--tag', '-t', help='Tag ground truth data')
+@click.pass_context
+def create_ground_truth(ctx, app_id: str, input_json: dict = None, label: dict = None, tag: str = None):
+    """
+    Submit fresh ground truth data
+    """
+    client = ctx.obj['client']
+    print("Submitting fresh ground truth data")
+    print(client.create_ground_truth(app_id, input_json, label, tag))
+
+
+@client.command(name='update_ground_truth')
+@click.option('--ground_truth_data_id', '-g', help='Ground truth data id', required=True)
+@click.option('--input_json', '-i', help='Input json of ground truth')
+@click.option('--label', '-l', help='Label (or output) json of ground truth')
+@click.option('--tag', '-t', help='Tag ground truth data')
+@click.pass_context
+def update_ground_truth(ctx, ground_truth_data_id: str, input_json: dict = None, label: dict = None, tag: str = None):
+    """
+    Update (patch) ground truth data
+    """
+    client = ctx.obj['client']
+    print(f"Updating ground truth data {ground_truth_data_id}")
+    print(client.update_ground_truth(ground_truth_data_id, input_json, label, tag))
+
+@client.command(name='list_ground_truth_data')
+@click.option('--app_id', '-a', help='Application id', required=True)
+@click.pass_context
+def list_ground_truth_data(ctx, app_id: str):
+    """
+    List all ground truth data for an application
+    """
+    client = ctx.obj['client']
+    print(f"Fetching ground truth data per application {app_id}")
+    print(client.list_ground_truth_data(app_id))
+
+@client.command(name='get_ground_truth_data')
+@click.option('--ground_truth_data_id', '-g', help='Ground truth data id', required=True)
+@click.pass_context
+def get_ground_truth_data(ctx, ground_truth_data_id: str):
+    """
+    Fetch single ground truth data object
+    """
+    client = ctx.obj['client']
+    print(f"Fetching ground truth data {ground_truth_data_id}")
+    print(client.get_ground_truth_data(ground_truth_data_id))
+
+@client.command(name='delete_ground_truth_data')
+@click.option('--ground_truth_data_id', '-g', help='Ground truth data id', required=True)
+@click.pass_context
+def delete_ground_truth_data(ctx, ground_truth_data_id: str):
+    """
+    Mark ground truth data as deleted
+    """
+    client = ctx.obj['client']
+    print(f"Deleting ground truth data {ground_truth_data_id}")
+    print(client.delete_ground_truth_data(ground_truth_data_id))
+
+@client.command(name='delete_ground_truth_data')
+@click.option('--app_id', '-a', help='Application id', required=True)
+@click.option('-job_id', '-j', help='Job id', required=True)
+@click.pass_context
+def create_ground_truth_from_job(ctx, app_id: str, job_id: str):
+    client = ctx.obj['client']
+    print(f"Converting job {job_id} to ground truth data")
+    print(client.create_ground_truth_from_job(app_id, job_id))
+
+
 @cli.command()
 @click.option('--api-key', help='Your Canotic API KEY', required=True)
 def config(api_key):
