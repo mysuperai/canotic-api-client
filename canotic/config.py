@@ -1,4 +1,4 @@
-BASE_URL = 'https://api-dev.canotic.com/v1'
+BASE_URL = 'https://api.canotic.com/v1'
 BASE_FOLDER = '~/.canoticapiclient'
 COGNITO_REGION = 'us-east-1'
 COGNITO_USERPOOL_ID = 'us-east-1_hwjZuxqbI'
