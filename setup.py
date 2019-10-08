@@ -19,7 +19,7 @@ REQUIRES = [
     "chardet==3.0.4",
     "Click==7.0",
     "docutils==0.14",
-    "ecdsa==0.13.2",
+    "ecdsa==0.13.3",
     "envs==1.3",
     "future==0.17.1",
     "idna==2.8",
