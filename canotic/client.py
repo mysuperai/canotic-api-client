@@ -3,13 +3,14 @@ from typing import Optional
 import requests
 
 from canotic.apis.auth import AuthApiMixin
+from canotic.apis.data import DataApiMixin
 from canotic.apis.jobs import JobsApiMixin
 from canotic.apis.ground_truth import GroundTruthApiMixin
 from canotic.config import BASE_URL
 from canotic.exceptions import CanoticError
 
 
-class Client(JobsApiMixin, AuthApiMixin, GroundTruthApiMixin):
+class Client(JobsApiMixin, AuthApiMixin, GroundTruthApiMixin, DataApiMixin):
 
     def __init__(self, api_key: str = None, auth_token: str = None, base_url: str = None):
         self.api_key = api_key
