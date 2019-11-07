@@ -43,7 +43,7 @@ class GroundTruthApiMixin(ABC):
         if tag is not None:
             body_json['tag'] = tag
         uri = f'baselineData/{ground_truth_data_id}'
-        return self.request(uri, 'PATCH', required_api_key=True)
+        return self.request(uri, 'PATCH', body_params=body_json, required_api_key=True)
 
     def list_ground_truth_data(self, app_id: str) -> dict:
         """
