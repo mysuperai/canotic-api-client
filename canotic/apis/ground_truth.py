@@ -45,14 +45,21 @@ class GroundTruthApiMixin(ABC):
         uri = f'baselineData/{ground_truth_data_id}'
         return self.request(uri, 'PATCH', body_params=body_json, required_api_key=True)
 
-    def list_ground_truth_data(self, app_id: str) -> dict:
+    def list_ground_truth_data(self, app_id: str, page: int = None, size: int = None) -> dict:
         """
         List all ground truth data for an application
         :param app_id: Application id
+        :param page: Page number of results
+        :param size: Page size of results
         :return: Paginated list of ground truth data objects
         """
         uri = f'apis/{app_id}/baselineData'
-        return self.request(uri, 'GET', required_api_key=True)
+        q_params = {}
+        if page is not None:
+            q_params['page'] = page
+        if size is not None:
+            q_params['size'] = size
+        return self.request(uri, 'GET', required_api_key=True, query_params=q_params)
 
     def get_ground_truth_data(self, ground_truth_data_id: str) -> dict:
         """

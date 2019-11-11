@@ -143,14 +143,16 @@ def update_ground_truth(ctx, ground_truth_data_id: str, input_json: dict = None,
 
 @client.command(name='list_ground_truth_data')
 @click.option('--app_id', '-a', help='Application id', required=True)
+@click.option('--page', '-p', help='Page number', type=int)
+@click.option('--size', '-s', help='Size of page', type=int)
 @click.pass_context
-def list_ground_truth_data(ctx, app_id: str):
+def list_ground_truth_data(ctx, app_id: str, page: int, size: int):
     """
     List all ground truth data for an application
     """
     client = ctx.obj['client']
     print(f"Fetching ground truth data per application {app_id}")
-    print(client.list_ground_truth_data(app_id))
+    print(client.list_ground_truth_data(app_id, page, size))
 
 @client.command(name='get_ground_truth_data')
 @click.option('--ground_truth_data_id', '-g', help='Ground truth data id', required=True)
