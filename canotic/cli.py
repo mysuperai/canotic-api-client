@@ -2,6 +2,8 @@ import json
 import os
 import signal
 import sys
+from datetime import datetime
+from typing import List
 
 from botocore.exceptions import ClientError
 from warrant import Cognito
@@ -86,6 +88,18 @@ def fetch_job(ctx, job_id: str):
     print(client.fetch_job(job_id))
 
 
+@client.command(name='get_job_response')
+@click.option('--job_id', '-j', help='Job id', required=True)
+@click.pass_context
+def get_job_response(ctx, job_id: str):
+    """
+    Get Job response given job id
+    """
+    client = ctx.obj['client']
+    print(f'Getting job response {job_id}')
+    print(client.get_job_response(job_id))
+
+
 @client.command(name='cancel_job')
 @click.option('--job_id', '-j', help='Job id', required=True)
 @click.pass_context
@@ -102,14 +116,33 @@ def cancel_job(ctx, job_id: str):
 @click.option('--app_id', '-a', help='Application id', required=True)
 @click.option('--page', '-p', help='Page number', type=int)
 @click.option('--size', '-s', help='Size of page', type=int)
+@click.option('--sort_by', '-sort', help='Job field to sort by', type=str, default='id', show_default=True)
+@click.option('--order_by', '-order', help='Sort direction (asc or desc)',
+              type=click.Choice(['asc', 'desc']), default='asc', show_default=True)
+@click.option('--created_start_date', '-c0', help='Created start date',
+              type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
+@click.option('--created_end_date', '-c1', help='Created end date',
+              type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
+@click.option('--completed_start_date', '-e0', help='Completed start date',
+              type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
+@click.option('--completed_end_date', '-e1', help='Completed end date',
+              type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
+@click.option('--status_in', '-s_in', help='Status of jobs', multiple=True, type=click.Choice(
+    ['SCHEDULED', 'IN_PROGRESS', 'FAILED', 'SUSPENDED', 'CANCELED', 'EXPIRED', 'COMPLETED']))
 @click.pass_context
-def list_jobs(ctx, app_id: str, page: int, size: int):
+def list_jobs(ctx, app_id: str, page: int, size: int, sort_by: str, order_by: str, created_start_date: datetime,
+              created_end_date: datetime, completed_start_date: datetime, completed_end_date: datetime,
+              status_in: List[str] = None):
     """
     Get a paginated list of jobs given an application id
     """
     client = ctx.obj['client']
     print(f'Fetching jobs per application {app_id}')
-    print(client.list_jobs(app_id, page, size))
+    if len(status_in) == 0:
+        status_in = None
+    print(client.list_jobs(app_id, page, size, sort_by, order_by, created_start_date, created_end_date,
+                           completed_start_date,
+                           completed_end_date, status_in))
 
 
 @client.command(name='create_ground_truth')
@@ -141,6 +174,7 @@ def update_ground_truth(ctx, ground_truth_data_id: str, input_json: dict = None,
     print(f"Updating ground truth data {ground_truth_data_id}")
     print(client.update_ground_truth(ground_truth_data_id, input_json, label, tag))
 
+
 @client.command(name='list_ground_truth_data')
 @click.option('--app_id', '-a', help='Application id', required=True)
 @click.option('--page', '-p', help='Page number', type=int)
@@ -154,6 +188,7 @@ def list_ground_truth_data(ctx, app_id: str, page: int, size: int):
     print(f"Fetching ground truth data per application {app_id}")
     print(client.list_ground_truth_data(app_id, page, size))
 
+
 @client.command(name='get_ground_truth_data')
 @click.option('--ground_truth_data_id', '-g', help='Ground truth data id', required=True)
 @click.pass_context
@@ -165,6 +200,7 @@ def get_ground_truth_data(ctx, ground_truth_data_id: str):
     print(f"Fetching ground truth data {ground_truth_data_id}")
     print(client.get_ground_truth_data(ground_truth_data_id))
 
+
 @client.command(name='delete_ground_truth_data')
 @click.option('--ground_truth_data_id', '-g', help='Ground truth data id', required=True)
 @click.pass_context
@@ -175,6 +211,7 @@ def delete_ground_truth_data(ctx, ground_truth_data_id: str):
     client = ctx.obj['client']
     print(f"Deleting ground truth data {ground_truth_data_id}")
     print(client.delete_ground_truth_data(ground_truth_data_id))
+
 
 @client.command(name='delete_ground_truth_data')
 @click.option('--app_id', '-a', help='Application id', required=True)
