@@ -119,13 +119,13 @@ def cancel_job(ctx, job_id: str):
 @click.option('--sort_by', '-sort', help='Job field to sort by', type=str, default='id', show_default=True)
 @click.option('--order_by', '-order', help='Sort direction (asc or desc)',
               type=click.Choice(['asc', 'desc']), default='asc', show_default=True)
-@click.option('--created_start_date', '-created_start', help='Created start date',
+@click.option('--created_start_date', '-c0', help='Created start date',
               type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
-@click.option('--created_end_date', '-created_end', help='Created end date',
+@click.option('--created_end_date', '-c1', help='Created end date',
               type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
-@click.option('--completed_start_date', '-completed_start', help='Completed start date',
+@click.option('--completed_start_date', '-e0', help='Completed start date',
               type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
-@click.option('--completed_end_date', '-completed_end', help='Completed end date',
+@click.option('--completed_end_date', '-e1', help='Completed end date',
               type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
 @click.option('--status_in', '-s_in', help='Status of jobs', multiple=True, type=click.Choice(
     ['SCHEDULED', 'IN_PROGRESS', 'FAILED', 'SUSPENDED', 'CANCELED', 'EXPIRED', 'COMPLETED']))
