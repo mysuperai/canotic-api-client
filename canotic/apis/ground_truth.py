@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Generator
 
 
 class GroundTruthApiMixin(ABC):
@@ -60,6 +61,22 @@ class GroundTruthApiMixin(ABC):
         if size is not None:
             q_params['size'] = size
         return self.request(uri, 'GET', required_api_key=True, query_params=q_params)
+
+
+    def get_all_ground_truth_data(self, app_id: str) -> Generator[dict, None, None]:
+        """
+        Generator that retrieves all ground truth data given an application id
+        :param app_id: Application id
+        :return: Generator that yields complete list of dicts with ground truth data objects
+        """
+        page = 0
+        paginated_ground_truth = {'last': False}
+        while not paginated_ground_truth['last']:
+            paginated_ground_truth = self.list_ground_truth_data(app_id, page=page, size=500)
+            for gtd in paginated_ground_truth['content']:
+                yield gtd
+            page = page + 1
+
 
     def get_ground_truth_data(self, ground_truth_data_id: str) -> dict:
         """

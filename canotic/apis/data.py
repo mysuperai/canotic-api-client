@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import List, BinaryIO
+from typing import List, BinaryIO, Generator
 import requests
 
 from canotic.exceptions import CanoticStorageError
@@ -43,6 +43,26 @@ class DataApiMixin(ABC):
         if size is not None:
             query_params['size'] = size
         return self.request(self.resource, method='GET', query_params=query_params, required_api_key=True)
+
+    def get_all_data(self, data_ids: List[str] = None, paths: List[str] = None, recursive: bool = False,
+                      signedUrl: bool = False, secondsTtl: int = 600) -> Generator[dict, None, None]:
+        """
+        Generator that retrieves all data filtered using an array of ids xor and array of paths
+        :param data_ids: Array of data ids
+        :param paths: Array of paths
+        :param recursive: Get all datasets from recursive path (only takes first path of array)
+        :param signedUrl: Get signed url for each dataset
+        :param secondsTtl: Time to live for signed url
+        :return: Generator that yields complete list of dicts with data objects
+        """
+        page = 0
+        paginated_data = {'last': False}
+        while not paginated_data['last']:
+            paginated_data = self.list_data(data_ids=data_ids, paths=paths, recursive=recursive, signedUrl=signedUrl,
+                                            secondsTtl=secondsTtl, page=page, size=500)
+            for d in paginated_data['content']:
+                yield d
+            page = page + 1
 
     def get_signed_url(self, path: str, secondsTtl: int = 600) -> dict:
         """
