@@ -54,18 +54,18 @@ def client(ctx):
     ctx.obj['client'] = Client(api_key=api_key)
 
 
-@client.command(name='create_job')
+@client.command(name='create_jobs')
 @click.option('--app_id', '-a', help='Application id', required=True)
 @click.option('--callback_url', '-c', help='Callback URL for post when jobs finish')
 @click.option('--inputs', '-i', help='Json list with inputs')
 @click.option('--inputs_file', '-if', help='URL pointing to JSON file')
 @click.pass_context
-def create_job(ctx, app_id: str, callback_url: str, inputs: str, inputs_file: str):
+def create_jobs(ctx, app_id: str, callback_url: str, inputs: str, inputs_file: str):
     """
-    Submit a job
+    Submit jobs
     """
     client = ctx.obj['client']
-    print("Submitting job")
+    print("Submitting jobs")
     json_inputs = None
     if inputs is not None:
         try:

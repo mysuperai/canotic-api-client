@@ -10,12 +10,12 @@ class JobsApiMixin(ABC):
     def request(self, uri, method, body_params=None, query_params=None, required_api_key=False):
         pass
 
-    def create_job(self, api_id: str, callbackUrl: str = None, inputs: List[dict] = None, inputsFileUrl: str = None,
-                   metadata: dict = None) -> dict:
+    def create_jobs(self, app_id: str, callbackUrl: str = None, inputs: List[dict] = None, inputsFileUrl: str = None,
+                    metadata: dict = None) -> dict:
         """
-        Submit a job
+        Submit jobs
 
-        :param api_id: Application id
+        :param app_id: Application id
         :param callback_url: URL that should be POSTed once the job is completed for the response data.
         :param inputs: List of objects that represent the input of the job (based on the particular app type)
         :param inputsFileUrl: URL of json file containing list of input objects
@@ -31,7 +31,7 @@ class JobsApiMixin(ABC):
             body_json['inputsFileUrl'] = inputsFileUrl
         if metadata is not None:
             body_json['metadata'] = metadata
-        uri = f'apps/{api_id}/jobs'
+        uri = f'apps/{app_id}/jobs'
         return self.request(uri, method='POST', body_params=body_json, required_api_key=True)
 
     def fetch_job(self, job_id: str) -> dict:
