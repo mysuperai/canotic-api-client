@@ -145,6 +145,33 @@ def list_jobs(ctx, app_id: str, page: int, size: int, sort_by: str, order_by: st
                            completed_end_date, status_in))
 
 
+@client.command(name='download_jobs')
+@click.option('--app_id', '-a', help='Application id', required=True)
+@click.option('--created_start_date', '-c0', help='Created start date',
+              type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
+@click.option('--created_end_date', '-c1', help='Created end date',
+              type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
+@click.option('--completed_start_date', '-e0', help='Completed start date',
+              type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
+@click.option('--completed_end_date', '-e1', help='Completed end date',
+              type=click.DateTime(formats=['%Y-%m-%dT%H:%M:%SZ', '%Y-%m-%d']))
+@click.option('--status_in', '-s_in', help='Status of jobs', multiple=True, type=click.Choice(
+    ['SCHEDULED', 'IN_PROGRESS', 'FAILED', 'SUSPENDED', 'CANCELED', 'EXPIRED', 'COMPLETED']))
+@click.pass_context
+def download_jobs(ctx, app_id: str, created_start_date: datetime,
+              created_end_date: datetime, completed_start_date: datetime, completed_end_date: datetime,
+              status_in: List[str] = None):
+    """
+    Trigger processing of job responses that is sent to customer email once is finished.
+    """
+    client = ctx.obj['client']
+    print(f'Triggering job responses processing per application {app_id}')
+    if len(status_in) == 0:
+        status_in = None
+    print(client.download_jobs(app_id, created_start_date, created_end_date, completed_start_date, completed_end_date,
+                               status_in))
+
+
 @client.command(name='create_ground_truth')
 @click.option('--app_id', '-a', help='Application id', required=True)
 @click.option('--input_json', '-i', help='Input json of ground truth', required=True)
