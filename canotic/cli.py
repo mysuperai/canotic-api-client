@@ -134,7 +134,7 @@ def list_jobs(ctx, app_id: str, page: int, size: int, sort_by: str, order_by: st
               created_end_date: datetime, completed_start_date: datetime, completed_end_date: datetime,
               status_in: List[str] = None):
     """
-    Get a paginated list of jobs given an application id
+    Get a paginated list of jobs (without response) given an application id
     """
     client = ctx.obj['client']
     print(f'Fetching jobs per application {app_id}')

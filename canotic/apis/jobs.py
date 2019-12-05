@@ -69,7 +69,7 @@ class JobsApiMixin(ABC):
                   completedStartDate: datetime = None, completedEndDate: datetime = None,
                   statusIn: List[str] = None) -> dict:
         """
-        Get a paginated list of jobs given an application id
+        Get a paginated list of jobs (without job responses) given an application id
         :param app_id: Application id
         :param page: Page number [0..N]
         :param size: Size of page
@@ -106,7 +106,7 @@ class JobsApiMixin(ABC):
 
     def download_jobs(self, app_id: str, createdStartDate: datetime = None, createdEndDate: datetime = None,
                       completedStartDate: datetime = None, completedEndDate: datetime = None,
-                      statusIn: List[str] = None) -> dict:
+                      statusIn: List[str] = None) -> str:
         """
         Trigger processing of jobs responses that is sent to customer email once is finished.
         :param app_id: Application id
@@ -115,7 +115,7 @@ class JobsApiMixin(ABC):
         :param completedStartDate: Completed start date
         :param completedEndDate: Completed end date
         :param statusIn: Status of jobs
-        :return: Paginated list of dicts with jobs data
+        :return: 'Task is processing' string
         """
         uri = f'apps/{app_id}/job_responses'
         query_params = {}
@@ -136,7 +136,7 @@ class JobsApiMixin(ABC):
                      completedStartDate: datetime = None, completedEndDate: datetime = None,
                      statusIn: List[str] = None) -> Generator[dict, None, None]:
         """
-        Generator that retrieves all jobs given an application id
+        Generator that retrieves all jobs (without job responses) given an application id
         :param app_id: Application id
         :param sortBy: Job field to sort by
         :param orderBy: Sort direction (asc or desc)
