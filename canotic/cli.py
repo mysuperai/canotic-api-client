@@ -159,8 +159,8 @@ def list_jobs(ctx, app_id: str, page: int, size: int, sort_by: str, order_by: st
     ['SCHEDULED', 'IN_PROGRESS', 'FAILED', 'SUSPENDED', 'CANCELED', 'EXPIRED', 'COMPLETED']))
 @click.pass_context
 def download_jobs(ctx, app_id: str, created_start_date: datetime,
-              created_end_date: datetime, completed_start_date: datetime, completed_end_date: datetime,
-              status_in: List[str] = None):
+                  created_end_date: datetime, completed_start_date: datetime, completed_end_date: datetime,
+                  status_in: List[str] = None):
     """
     Trigger processing of job responses that is sent to customer email once is finished.
     """
@@ -266,7 +266,8 @@ def login(username, password):
     """
     Use username and password to get Canotic api key.
     """
-    user = Cognito(user_pool_id=COGNITO_USERPOOL_ID, client_id=COGNITO_CLIENT_ID,
+    user = Cognito(access_key='AKIAIOSFODNN7EXAMPLE', secret_key='wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+                   user_pool_id=COGNITO_USERPOOL_ID, client_id=COGNITO_CLIENT_ID,
                    user_pool_region=COGNITO_REGION, username=username)
     try:
         user.authenticate(password)
