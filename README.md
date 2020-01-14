@@ -28,7 +28,10 @@ Before you can interact with the API, you will need to register at [canotic.com]
 ```
 canotic-api-cli --help
 ```
-
+Note: If you signed-up using Google you need to set api-key manually using:
+```
+canotic-api-cli config --api-key <API-KEY>
+```
 ### Python example
 
 ```python
