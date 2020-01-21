@@ -73,7 +73,7 @@ def create_jobs(ctx, app_id: str, callback_url: str, inputs: str, inputs_file: s
         except:
             print("Couldn't read json inputs")
             exit()
-    print(client.create_job(app_id, callback_url, json_inputs, inputs_file))
+    print(client.create_jobs(app_id, callback_url, json_inputs, inputs_file))
 
 
 @client.command(name='fetch_job')

@@ -39,7 +39,7 @@ import canotic as ca
 
 client = ca.Client("CANOTIC_API_KEY")
 
-client.create_job(api_id="APP_ID:",
+client.create_jobs(api_id="APP_ID:",
 		callback_url='http://www.example.com/callback',
 		inputs=[{"data_url":"http://i.imgur.com/XOJbalC.jpg"}]
 )
