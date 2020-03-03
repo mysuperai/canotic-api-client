@@ -96,7 +96,7 @@ class DataApiMixin(ABC):
                                query_params={'path': path, 'description': description, 'mimeType': mimeType,
                                              'uploadUrl': True}, required_api_key=True)
         try:
-            resp = requests.put(dataset.pop('uploadUrl'), data=file)
+            resp = requests.put(dataset.pop('uploadUrl'), data=file.read())
             if resp.status_code == 200 or resp.status_code == 201:
                 return dataset
             else:
