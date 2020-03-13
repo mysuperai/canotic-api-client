@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 NAME = "canotic_api_client"
-VERSION = "0.0.1"
+VERSION = "0.0.3"
 # To install the library, run the following
 #
 # python setup.py install
@@ -13,10 +13,10 @@ VERSION = "0.0.1"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = [
-    "boto3==1.9.188",
-    "requests==2.22.0",
-    "Click==7.0",
-    "warrant==0.6.1"
+    "boto3>=1.9",
+    "requests>=2.22",
+    "Click>=7.0",
+    "warrant>=0.6",
 ]
 
 setup(
@@ -24,7 +24,7 @@ setup(
     version=VERSION,
     description="Canotic API",
     author_email="",
-    url="canotic.com",
+    url="https://canotic.com/",
     keywords=["Canotic API"],
     install_requires=REQUIRES,
     packages=find_packages(),
