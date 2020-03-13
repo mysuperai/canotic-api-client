@@ -24,7 +24,7 @@ setup(
     version=VERSION,
     description="Canotic API",
     author_email="",
-    url="canotic.com",
+    url="https://canotic.com/",
     keywords=["Canotic API"],
     install_requires=REQUIRES,
     packages=find_packages(),
